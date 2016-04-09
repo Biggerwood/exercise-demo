@@ -16,7 +16,7 @@ var lunarInfo=new Array(
 0x05aa0,0x076a3,0x096d0,0x04bd7,0x04ad0,0x0a4d0,0x1d0b6,0x0d250,0x0d520,0x0dd45,  //2030-2039
 0x0b5a0,0x056d0,0x055b2,0x049b0,0x0a577,0x0a4b0,0x0aa50,0x1b255,0x06d20,0x0ada0)  //2040-2049
 
-var solarMonth=new Array(31,28,31,30,31,30,31,31,30,31,30,31);
+var solarMonth=new Array(31,31,28,31,30,31,30,31,31,30,31,30,31);// 12 1 2 3..12
 
 var Gan=new Array("甲","乙","丙","丁","戊","己","庚","辛","壬","癸");
 
@@ -168,11 +168,11 @@ function solarDays(y,m) {
    if(m==1)
       return(((y%4 == 0) && (y%100 != 0) || (y%400 == 0))? 29: 28);
    else
-      return(solarMonth[m]);
+      return(solarMonth[m+1]);
 }
 
 
-//获取公历和农历的日期参数,传递m+1的月，和date有关
+//获取公历和农历的日期参数,传递m月，显示m+1，和date有关,返回正常月份
 function getCalendar(y, m){
 
    var dateArray = [];
@@ -181,6 +181,7 @@ function getCalendar(y, m){
 
    var sMonth_Days = solarDays(y,m);
    var sLast_Month = solarDays(y,m-1); //上个月公历的天数
+   console.log(sLast_Month);
 
    sDdate = new Date(y, m, 1);
    this.firstWeek = sDdate.getDay();
@@ -196,6 +197,7 @@ function getCalendar(y, m){
 
          sDdate = null;
          strTemp = null;
+         console.log(dateArray);
       }
       else if(i < sMonth_Days + weekTemp){
          sDdate = new Date(y, m, i - weekTemp + 1);
@@ -278,24 +280,72 @@ function show(monthData){
    
    var oTable = document.getElementById('#calendar'),
        oTr = document.getElementsByTagName('tr');
-   var i, j, temp = '', temp_split='';
+   var i, j= 0, temp = '', temp_split='';
   
-   for(i = 0; i < 5; i++ ){
-      for( j = i*5 ; j < i*5 + 7; j++ ){
+   for(i = 1; i < 6; i++ ){
+      for( ; j < i*7 ; j++ ){
          temp_split = monthData[j];
          temp_split = temp_split.split('-');
          console.log(temp_split);
          temp += "<td><span class='solarDay'>"+temp_split[0]+"</span><br/><span class='lunarDay'>"+temp_split[1]+"</span></td>"
       }
-         oTr[i+2].innerHTML = temp; 
+         oTr[i+1].innerHTML = temp; 
          temp='';
    }
+}
 
+//selectDate[1]存入0-11
+function toPreMonth(){
+   var oMonth = document.getElementById('month');
+   var oMonthOption = oMonth.getElementsByTagName('option');
 
+   if(selectDate[1] > 0){
+      selectDate[1]--;
+   }
+   else{
+      selectDate[1] = 11;
+   }
+   oMonthOption[selectDate[1]].selected = true; 
+   show(getCalendar(selectDate[0], selectDate[1]));
+}
+
+function toNextMonth(){
+   var oMonth = document.getElementById('month');
+   var oMonthOption = oMonth.getElementsByTagName('option');
+
+   if(selectDate[1] < 11){
+      selectDate[1]++;
+   }
+   else{
+      selectDate[1] = 0;
+   }
+   oMonthOption[selectDate[1]].selected = true; 
+   show(getCalendar(selectDate[0], selectDate[1]));
+}
+
+//事件代理
+function calendarEvent(){
+   
+   var oCalendarTable = document.getElementById('calendar');
+
+   oCalendarTable.addEventListener("click",function(ev){
+
+      var theEvent = window.event || ev;
+      var target=theEvent.target || theEvent.srcElement;
+
+      if(target.id == "pre"){  
+         toPreMonth.call(); 
+      }
+      else if(target.id == "next"){
+         toNextMonth.call();
+      }
+      
+   });
 }
 
 window.onload = function(){
 
    init();
    selectChange();
+   calendarEvent();
 }

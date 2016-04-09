@@ -11,4 +11,17 @@ body div table tbody tr td p{
 }
 td{
 	width: 40px;
+
+}
+#pre{
+	background-image: url("../img/preMonth.png");
+	width: 21px;
+	height: 18px;
+	display:inline-block;
+}
+#next{
+	background-image: url("../img/nextMonth.png");
+	width: 21px;
+	height: 18px;
+	display:inline-block;
 }
