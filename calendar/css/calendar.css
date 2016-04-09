@@ -1,0 +1,14 @@
+body div table tbody tr td p{
+	margin: 0;
+	padding: 0;
+}
+#calendar{
+	display: inline-block;
+}
+#display{
+	display: inline-block;
+	border: 1px solid black;
+}
+td{
+	width: 40px;
+}
