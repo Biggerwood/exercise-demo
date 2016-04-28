@@ -96,12 +96,18 @@ window.onload = function(){
 	
 	var a = new ReadImgFile(this);
 	if(a.readAsDataURL('album1', this)){
+		//alert(1);
 		imgNum++;
 		var selClsArray = clsArray[imgNum-1].slice(0, imgNum);
-		console.log(selClsArray);
+		//alert(2);
+		//console.log(selClsArray);
 		//alert(++imgNum);
+		//alert(3);
 		var b = new imgLayout(imgNum);
+		//alert(4);
 		b.select('sel',selClsArray);
+		//alert(5);
+
 	}
 }
 }
