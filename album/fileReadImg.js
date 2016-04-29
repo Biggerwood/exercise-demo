@@ -1,10 +1,15 @@
+//读取文件并显示到div中
 var ReadImgFile = function(file){
-	//this.file = file;
+
 }
-ReadImgFile.prototype.readAsDataURL = function(imgWrapId, file){
+//@param commonCls 所选择div下图片的通用class
+//@param file input控件选择上传的文件
+//@param imgWrapId 包裹图片的div的id
+//@return bool 定义是否上传成功
+ReadImgFile.prototype.readAsDataURL = function(imgWrapId, commonCLS, file){
 
     var result = document.getElementById(imgWrapId); 
-
+    //Chrome, FF
     if ((file.files && file.files[0])){
 	    if(!/image\/\w+/.test(file.files[0].type)){  
 	        alert("请上传图片！");  
@@ -21,7 +26,7 @@ ReadImgFile.prototype.readAsDataURL = function(imgWrapId, file){
 	    }  
         */
         var src = window.URL.createObjectURL(file.files[0]);
-        result.innerHTML +='<img class="sel" src="' + src +'"/>';
+        result.innerHTML +='<img class="'+ commonCLS +'" src="' + src +'"/>';
         return true;
 	}
     //兼容IE
@@ -29,11 +34,11 @@ ReadImgFile.prototype.readAsDataURL = function(imgWrapId, file){
         file.select();
 
         var src = document.selection.createRange().text;
-        result.innerHTML += '<img class="sel" src="' + src +'"/>';
+        result.innerHTML += '<img class="'+ commonCLS +'" src="' + src +'"/>';
         return true;
 	}
 }
-
+//设置图片大小
 ReadImgFile.prototype.setImgSize = function(img, maxWidth, maxHeight, width, height ){
     var param = {top:0, left:0, width:width, height:height};
     if( width>maxWidth || height>maxHeight )
