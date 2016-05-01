@@ -1,0 +1,23 @@
+body, div, img{
+	margin: 0;
+	padding: 0;
+}
+
+#main{
+	margin: 10px;
+	position: relative;
+}
+.wrap{
+	padding: 5px 10px;
+	float: left;
+}
+.pic{
+	width: 210px;
+	border: solid 1px #ccc;
+	border-radius: 5px;
+	box-shadow: 0 0 5px #ccc;
+}
+.pic img{
+	width: 210px;
+}
+
