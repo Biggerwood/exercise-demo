@@ -84,11 +84,13 @@ var toFullScreen = function(target, obj){
 	if(target.tagName == "IMG"){
 		obj.className = "show";
 		obj.innerHTML = "<img src = '"+ target.src +"'/>"; 
+		document.querySelector("body").className = 'noScroll';
 	}
 }
 //隐藏图片所在的遮罩
 var hidden = function(obj){
 	obj.className = "hidden";
+	document.querySelector("body").className = '';
 }
 
 window.onload = function(){

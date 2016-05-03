@@ -2,8 +2,8 @@ body, div, img{
 	margin: 0;
 	padding: 0;
 }
-html,body{
-height: 100%;
+body.noScroll{
+overflow: hidden;
 }
 #main{
 	margin: 10px;
