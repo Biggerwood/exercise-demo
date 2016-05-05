@@ -40,25 +40,7 @@ var arrIndex = function(array, value){
 			return i;
 	}
 }
-//瀑布流局部
 
-//动态添加图片
-var barrelAdd = function(imgData, parent, cls){
-	var selImg = selCls(parent, cls),
-		imgNum = selImg.length;
-
-	var scrollTop = document.documentElement.scrollTop || document.body.scrollTop,
-		pageHeight = scrollTop + document.documentElement.clientHeight || document.body.clientHeight,
-		lastImgHeight = selImg[imgNum-1].offsetTop + Math.floor(selImg[imgNum-1].offsetHeight/2);
-
-
-	if(lastImgHeight < pageHeight){
-		for(var i=0; i<imgData.data.length; i++){
-			parent.innerHTML += '<div class="wrap"><div class="pic"><img src="img/'+imgData.data[i].src+'"/></div></div>';
-	    }
-	    waterfallLay(parent, cls);
-	}
-}
 //图片全屏化
 var toFullScreen = function(target, obj){	
 	if(target.tagName == "IMG"){
@@ -72,7 +54,7 @@ var hidden = function(obj){
 	obj.className = "hidden";
 	document.querySelector("body").className = '';
 }
-//
+//图像大小的数组
 var imgSize = [];
 var loadImg = function(imgData, parent, callback){
 	var realHeight, realWidth, 
@@ -80,7 +62,7 @@ var loadImg = function(imgData, parent, callback){
 		imgNum = imgData.length;
 	for(var i = 0; i < len; i ++){ 
 		var imgtemp = new Image();
-		imgtemp.src = imgData[i].src; 
+		
 		imgtemp.index = i;//指定一个检索值，用于确定是哪张图 
 		imgtemp.onload = function(){
 			realWidth = this.width; 
@@ -92,6 +74,7 @@ var loadImg = function(imgData, parent, callback){
 				callback(imgData, imgSize, parent);
 			}
 		} 
+		imgtemp.src = imgData[i].src; // IE8
 	}
 }
 
@@ -105,17 +88,26 @@ var barrelLay = function(imgData, imgSize, parent){
 	console.log(imgSize);
 	
 	for(var i = 0; i < len; i++){
-		tmpWidth += imgSize[i].realWidth / imgSize[i].realHeight * setHeight;
+		tmpWidth += Math.ceil(imgSize[i].realWidth / imgSize[i].realHeight * setHeight);
 		console.log(tmpWidth);
+		console.log(mainWidth);
 		if(tmpWidth < mainWidth){
 			++ num;
 		}
 		else{
-			rowHeight = mainWidth / tmpWidth * setHeight;
-			for(var j = i; j > i-num; j-- ){
+			++ num;
+			console.log(num);
+			rowHeight =  Math.floor(mainWidth / tmpWidth * setHeight);
+			console.log(tmpWidth);
+			for(var j = i- num + 1; j < i + 1; j++ ){
 				html += "<img src='"+imgData[j].src+"' height = '"+rowHeight+"px'/>"
+
+				console.log(j);
+				console.log(i);
 			}
 			parent.innerHTML += html;
+			html ='';
+			tmpWidth = 0;
 			num = 0;
 		}
 	}	
@@ -130,12 +122,6 @@ window.onload = function(){
 	var imgData =  {"data":[{"src":'img/0.jpg'}, {"src":'img/1.jpg'}, {"src":'img/2.jpg'}, {"src":'img/3.jpg'}, {"src":'img/4.jpg'}, {"src":'img/5.jpg'}, {"src":'img/6.jpg'}, {"src":'img/7.jpg'}, {"src":'img/8.jpg'}, {"src":'img/9.jpg'}, {"src":'img/10.jpg'}, {"src":'img/11.jpg'}, {"src":'img/12.jpg'}, {"src":'img/13.jpg'}, {"src":'img/14.jpg'}, {"src":'img/15.jpg'}, {"src":'img/16.jpg'}, {"src":'img/17.jpg'}, {"src":'img/18.jpg'}, {"src":'img/19.jpg'}, {"src":'img/20.jpg'}, {"src":'img/21.jpg'}, {"src":'img/22.jpg'}, {"src":'img/23.jpg'}, {"src":'img/24.jpg'}, {"src":'img/25.jpg'}, {"src":'img/26.jpg'}, {"src":'img/27.jpg'}, {"src":'img/28.jpg'}, {"src":'img/29.jpg'}, {"src":'img/30.jpg'}]}
 
 	loadImg(imgData.data, oMain, barrelLay);
-	/*
-	waterfallLay(oMain, 'wrap');
-
-	addHandler(window, 'scroll', function(){
-		waterfallAdd(imgData, oMain, 'wrap');
-	});
 
 	addHandler(oMain, 'click', function(ev){
 		var ev = ev || window.event,
@@ -146,5 +132,5 @@ window.onload = function(){
 	addHandler(oFull, 'click', function(){
 		hidden(oFull);
 	});	
-*/
+
 }
