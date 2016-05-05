@@ -7,25 +7,9 @@ body.noScroll{
 }
 
 #main{
-	margin: 10px;
+	margin: 10px auto;
 	width: 1000px;
 }
-/*
-.wrap{
-	padding: 5px 10px;
-	float: left;
-}
-.pic{
-	width: 210px;
-	border: solid 1px #ccc;
-	border-radius: 5px;
-	box-shadow: 0 0 5px #ccc;
-}
-.pic img{
-	width: 210px;
-	cursor: pointer;
-}
-
 div.show{
 	position: fixed;
 	z-index: 100;
@@ -44,9 +28,10 @@ div.show{
 .hidden{
 	display: none;
 }
-
+#main img{
+	cursor: pointer;
+}
 #full img{
 	width: 400px;
 	cursor: pointer;
 }
-*/
