@@ -1,6 +1,5 @@
 (function (window) {
 
-    // 由于是第三方库，我们使用严格模式，尽可能发现潜在问题
     'use strict';
 
     function $(){
@@ -11,7 +10,7 @@
         if(document.getElementsByClassName)
             return document.getElementsByClassName(cls);
         else{
-            var children = document.getElementsByTagName('img'); 
+            var children = document.getElementsByTagName('*'); 
             var elements = new Array(); 
             for (var i=0; i<children.length; i++){ 
                 var child = children[i]; 
@@ -25,6 +24,24 @@
             } 
             return elements; 
         }
+    }
+    var arrIndex = function(array, value){
+        for(var i=0; i<array.length; i++){
+            if(array[i] == value)
+                return i;
+        }
+    }
+    var addHandler = function(target, eventType, handler){  
+        if(target.addEventListener){//主流浏览器  
+            addHandler = function(target, eventType, handler){  
+                target.addEventListener(eventType, handler, false);           
+            };  
+        }else{//IE  
+            addHandler = function(target, eventType, handler){  
+                target.attachEvent("on"+eventType, handler);  
+            };        
+        }  
+        addHandler(target, eventType, handler);  
     }
 
 
@@ -91,9 +108,9 @@
             HTMLElement = [];
 
         for(var i = 0; i < imgLen; i++){
-            var oImg = document.createElement("img");
-            oImg.src = img[i];
-            HTMLElement.push(oImg);
+            var oDiv = document.createElement("div");
+            oDiv.innerHTML = "<img src='"+ img[i] +"'/>";
+            HTMLElement.push(oDiv);
         }
         return HTMLElement;
     };
@@ -105,11 +122,12 @@
      * 在拼图布局下，根据图片数量重新计算布局方式；其他布局下向尾部追加图片
      * @param {(string|string[])} image 一张图片的 URL 或多张图片 URL 组成的数组
      */
-    IfeAlbum.prototype.addImage = function (image) {
-        var layout = this.getLayout(),
-            imgLen = image.length;
+    IfeAlbum.prototype.addImage = function (parent, addImg) {
+        var layout = this.getLayout();
         if(layout == 1){
 
+        }else{
+            parent.appendChild(addImg);
         }
     };
 
@@ -150,10 +168,10 @@
     IfeAlbum.prototype.setLayout = function (layout) {
         switch(layout){
             case 1:
-                //拼图
+                this.puzInit();
                 break;
             case 2:
-                //拼图
+                this.waterfallLay(this.wrapObj);
                 break;
             case 3:
                 //拼图
@@ -163,7 +181,7 @@
         }
     };
 
-
+ 
 
     /**
      * 获取相册的布局
@@ -228,15 +246,46 @@
         var addImg = this.image,
             imgLen = addImg.length;
 
-        var oImg = this.getImageDomElements();
-        for(var i = 0; i < oImg.length; i++){
-            alert(this.wrapObj);
-            this.wrapObj.appendChild(oImg[i]);
+        var oDiv = this.getImageDomElements();
+        for(var i = 0; i < imgLen; i++){
+            this.wrapObj.appendChild(oDiv[i]);
         }
         var selClsArray = clsArray[imgLen-1].slice(0, imgLen);
-        this.puzSelect(oImg, selClsArray);
+        this.puzSelect(oDiv, selClsArray);
     }
 
+    //瀑布流
+    IfeAlbum.prototype.waterfallLay = function(parent){
+        var selImg = this.getImageDomElements(),
+            imgNum = selImg.length,
+            heightArr = [],
+            clientWidth = parent.clientWidth;
+        var cols =  Math.floor(clientWidth/selImg[0].offsetWidth);
+        parent.style.width = selImg[0].offsetWidth * cols + 'px';
+        console.log(clientWidth);
+        console.log(selImg[0].offsetWidth);
+        console.log(selImg);
+
+        for(var i = 0; i < imgNum; i++){
+            var imgHeight = selImg[i].offsetHeight;
+            if(i < cols){
+                heightArr.push(imgHeight);
+                this.addImage(parent, selImg[i]);
+
+            }
+            else{
+                console.log(1);
+                var minHeight = Math.min.apply(null, heightArr),
+                    minIndex = arrIndex(heightArr, minHeight);
+                selImg[i].style.position = 'absolute';
+                selImg[i].style.left = selImg[minIndex].offsetLeft + 'px';
+                selImg[i].style.top = minHeight + 'px';
+                this.addImage(parent, selImg[i]);
+                console.log(selImg[i]);
+                heightArr[minIndex] += selImg[i].offsetHeight;
+            }
+        }
+    }
 
     /**
      * 设置木桶模式每行图片数的上下限

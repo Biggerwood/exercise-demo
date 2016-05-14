@@ -6,7 +6,7 @@
         if(document.getElementsByClassName)
             return document.getElementsByClassName(cls);
         else{
-            var children = document.getElementsByTagName('img'); 
+            var children = document.getElementsByTagName('*'); 
             var elements = new Array(); 
             for (var i=0; i<children.length; i++){ 
                 var child = children[i]; 
@@ -24,10 +24,7 @@
 window.onload = function(){
     var test = window.ifeAlbum;
     var selObj = $("div.album")[0];
-    console.log(selObj);
     test.wrapObj = selObj;
-    console.log(test.wrapObj);
-    test.image = ["img/1.jpg","img/2.jpg","img/3.jpg","img/4.jpg","img/5.jpg","img/6.jpg"];
-    console.log(test.image);
-    test.puzInit();
+    test.image = ["img/1.jpg","img/2.jpg", "img/3.jpg","img/4.jpg", "img/5.jpg","img/6.jpg", "img/7.jpg","img/8.jpg", "img/9.jpg","img/10.jpg"];
+    test.setLayout(2);
 }

@@ -3,97 +3,118 @@ body,div{
 	padding: 0;
 }
 
-div{
+div.album{
 	display: inline-block;
 	border: 2px solid ;
 	text-align: center;
 	width: 800px;
 	height: 500px;
 	background-color: #eee;
+	position: relative;
+	z-index: 0;
+	overflow-y:auto; 
+	overflow-x:hidden;
 }
-img.sel{
-	
+/*
+div img{
+	height: 100%;
+	width: 100%;
 }
-img.one-img1{
+*/
+
+.one-img1{
 	width: 80%;
 	height: 100%;
 }
 
-img.two-img1{
+.two-img1{
 	height: 100%;
 	width: 80%;
-	transform: translateX(-33.33333%);
-	-ms-transform: translateX(-33.33333%);
+	transform: translateX(-21.33333%);	
+	-ms-transform: translateX(-21.33333%);
 	-webkit-clip-path: polygon(33.33333% 0, 100% 0, 66.66666% 100%, 33.33333% 100%);
     clip-path: polygon(33.33333% 0, 100% 0, 66.66666% 100%, 33.33333% 100%);
 }
 
-img.two-img2{
+.two-img2{
 	height: 100%;
 	width: 80%;
-	transform: translate(33.33333%, -100%);
-	-ms-transform: translate(33.33333%, -100%);
+	transform: translate(45.33333%, -100%);
+	-ms-transform: translate(45.33333%, -100%);
     -webkit-clip-path: polygon(33.33333% 0, 66.66666% 0, 66.66666% 100%, 0% 100%);
     clip-path: polygon(33.33333% 0, 66.66666% 0, 66.66666% 100%, 0% 100%);
 }
 
-img.three-img1{
+.three-img1{
 	height: 100%;
 	width: 53.33333%;
 	margin-left: 10%;
 	float: left;
 }
-img.three-img2, img.three-img3{
+.three-img2, .three-img3{
 	float: left;
 	height: 50%;
 	width: 26.66666%;
 }
 
-img.four-img1, img.four-img2, img.four-img3, img.four-img4{
+.four-img1, .four-img2, .four-img3, .four-img4{
 	height: 50%;
 	width: 40%;
 	display: inline-block;
 } 
 
-img.five-img1{
+.five-img1{
 	height: 66.66666%;
 	width: 53.33333%;
 	float: left;
 	margin-left: 10%;
 }
-img.five-img2{
+.five-img2{
 	width: 26.66666%;
 	height: 40%;
 	float: left;
 } 
-img.five-img4, img.five-img5{
+.five-img4, .five-img5{
 	width: 26.66667%;
 	height: 33.33333%;
 	float: left;
 	transform: translateY(-100%);
 	-ms-transform: translateY(-100%);
 }
-img.five-img4{
+.five-img4{
 	margin-left: 10%;
 }
-img.five-img3{
+.five-img3{
 	width: 26.66666%;
 	height: 60%;
 	float: left;
 }
 
-img.six-img1, img.six-img2, img.six-img3, img.six-img4, img.six-img5, img.six-img6{
+.six-img1, .six-img2, .six-img3, .six-img4, .six-img5, .six-img6{
 	float: left;
 }
-img.six-img1{
+.six-img1{
 	height: 66.66666%;
 	width: 53.33333%;
 	margin-left: 10%;
 }
- img.six-img4{
+ .six-img4{
  	margin-left: 10%;
  }
-img.six-img2, img.six-img3, img.six-img4, img.six-img5, img.six-img6{
+.six-img2, .six-img3, .six-img4, .six-img5, .six-img6{
 	height: 33.33334%;
 	width: 26.66666%; 
+}
+
+div.album div {
+	width: 210px;
+	border: solid 1px #ccc;
+	border-radius: 5px;
+	box-shadow: 0 0 5px #ccc;
+	padding: 5px 10px;
+	float: left;
+}
+div.album div img{
+	width: 210px;
+	cursor: pointer;
 }
