@@ -165,13 +165,13 @@
      * 设置相册的布局
      * @param {number} layout 布局值，IfeAlbum.LAYOUT 中的值
      */
-    IfeAlbum.prototype.setLayout = function (layout) {
+    IfeAlbum.prototype.setLayout = function (layout, width) {
         switch(layout){
             case 1:
                 this.puzInit();
                 break;
             case 2:
-                this.waterfallLay(this.wrapObj);
+                this.waterfallLay(this.wrapObj, width);
                 break;
             case 3:
                 //拼图
@@ -255,23 +255,23 @@
     }
 
     //瀑布流
-    IfeAlbum.prototype.waterfallLay = function(parent){
+    IfeAlbum.prototype.waterfallLay = function(parent, imgWidth){
         var selImg = this.getImageDomElements(),
             imgNum = selImg.length,
             heightArr = [],
             clientWidth = parent.clientWidth;
-        var cols =  Math.floor(clientWidth/selImg[0].offsetWidth);
-        parent.style.width = selImg[0].offsetWidth * cols + 'px';
+        var cols =  Math.floor(clientWidth/imgWidth);
+        //parent.style.width = selImg[0].offsetWidth * cols + 'px';
         console.log(clientWidth);
-        console.log(selImg[0].offsetWidth);
+        console.log(cols);
         console.log(selImg);
 
         for(var i = 0; i < imgNum; i++){
             var imgHeight = selImg[i].offsetHeight;
             if(i < cols){
-                heightArr.push(imgHeight);
+                selImg[i].style.width = imgWidth + 'px';
                 this.addImage(parent, selImg[i]);
-
+                heightArr.push(imgHeight);
             }
             else{
                 console.log(1);
@@ -280,6 +280,7 @@
                 selImg[i].style.position = 'absolute';
                 selImg[i].style.left = selImg[minIndex].offsetLeft + 'px';
                 selImg[i].style.top = minHeight + 'px';
+                selImg[i].style.width = imgWidth + 'px';
                 this.addImage(parent, selImg[i]);
                 console.log(selImg[i]);
                 heightArr[minIndex] += selImg[i].offsetHeight;
