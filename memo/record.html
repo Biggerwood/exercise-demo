@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width,
+                                       initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        <title>My Tasks</title>
+        <link rel="stylesheet" href="record.css">
+        <script src="record.js"></script>
+    </head>
+	<body class="list">
+		<header>
+			<h1>My Tasks</h1>
+			<nav>
+				<ul>
+					<li><a class="list" href="#list">Task List</a></li>
+					<li><a class="add" href="#add">Add List</a></li>
+					<li><a class="set" href="#set">Settings</a></li>
+				</ul>
+			</nav>
+		</header>
+		<section name="list" class="list">
+			<form>
+				<input id="search"/>
+			</form>
+		</section>
+		<section name="add" class="add">
+			<form>
+				<label for="desc">Task Description</label>
+				<input id="desc" />
+				<label for="date">Due Date</label>
+				<input id="date" type="date"/>
+			</form>
+		</section>
+		<section name="set" class="set">
+			<form>
+				<label for="name">Your Name</label>
+				<input id="name"/>
+				<label for="color">Color Scheme</label>
+				<select id="color"/>
+					<option>red</option>
+					<option>blue</option>
+					<option>green</option>
+				</select>
+				<input type="button" value="save" />
+				<input type="button" value="reset" />
+			</form>
+		</section>
+	</body>
+</html>
