@@ -10,7 +10,7 @@
     </head>
 	<body class="list">
 		<header>
-			<h1>My Tasks</h1>
+			<h1 class="blue">My Tasks</h1>
 			<nav>
 				<ul>
 					<li><a class="list" href="#list">Task List</a></li>
@@ -21,29 +21,30 @@
 		</header>
 		<section name="list" class="list">
 			<form>
-				<input id="search"/>
+				<input type="search" id="search"  placeholder="Search tasks..."/>
 			</form>
 		</section>
 		<section name="add" class="add">
 			<form>
 				<label for="desc">Task Description</label>
-				<input id="desc" />
+				<textarea id="desc"></textarea>
 				<label for="date">Due Date</label>
 				<input id="date" type="date"/>
+				<input type="submit" value="Add Task">
 			</form>
 		</section>
 		<section name="set" class="set">
 			<form>
 				<label for="name">Your Name</label>
-				<input id="name"/>
+				<input id="name" type="text"/>
 				<label for="color">Color Scheme</label>
 				<select id="color"/>
 					<option>red</option>
 					<option>blue</option>
 					<option>green</option>
 				</select>
-				<input type="button" value="save" />
-				<input type="button" value="reset" />
+				<input id="save" type="submit" value="save" />
+				<input type="reset" value="reset" />
 			</form>
 		</section>
 	</body>

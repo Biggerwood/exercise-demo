@@ -5,19 +5,27 @@ html, body, h1, div, form, input, header, section, nav, ul{
 body{
 	background-color: #eee;
 }
+
 h1{
-	background-color: #0D407A;
 	font:italic bold 2em arial;
 	color: white;
-	border-radius: 0.5em;
 	text-align: center;
 	padding: 0.5em;
 }
+h1.blue{
+	background-color: #0D407A;
+}
+h1.red{
+	background-color: red;
+}
+h1.green{
+	background-color: green;
+}
+
 ul{
 	background-color: #444;
 	text-align: center;
 	padding: 6px;
-	border-radius: 0.5em;
 }
 ul li{
 	list-style: none;
@@ -44,4 +52,61 @@ body.list a.list,
 body.add a.add,
 body.set a.set{
 	color: #4FBCEF;
+}
+
+section.list form{
+	padding: 0.4em; 
+	background-color: #999; 
+	border-bottom: 1px solid #252525;
+}
+input[type=search]{
+	width: 100%; 
+	padding: 0.4em; 
+	font-size: 1.1em;
+	border: 1px solid #444; 
+	border-radius: 2em;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box; 
+	box-sizing: border-box;
+}
+section.add form{
+	padding: 0.4em;
+}
+textarea, select, input[type=date],input[type=text]{
+	width: 100%;
+	border: 1px solid #444; 
+	font: 1.2em arial;
+	color: #444;
+}
+input[type=button], input[type=submit], input[type=reset]{
+	width: 100%;
+	border-radius: 0.5em;
+	border: 1px solid #444; 
+	font:bold 1.2em arial;
+	color: white;
+	padding: 0.4em 0;
+	cursor:pointer; 
+}
+input[type=date]{
+	width: 100%;
+}
+label{
+	font:bold 1.2em arial;
+}
+input[type=submit]{
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(0,179,45)), color-stop(1, rgb(0,128,32)));
+	background-image: -webkit-linear-gradient(top, rgb(0,179,45), rgb(0,128,32));
+	background-image: -moz-linear-gradient(top, rgb(0,179,45), rgb(0,128,32));
+	background-image: -o-linear-gradient(top, rgb(0,179,45), rgb(0,128,32));
+	background-image: -ms-linear-gradient(top, rgb(0,179,45), rgb(0,128,32));
+	background-image: linear-gradient(to bottom, rgb(0,179,45), rgb(0,128,32));
+	margin: 0.8em 0 0.4em 0;
+}
+input[type=reset]{
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgb(240,60,0)), color-stop(1, rgb(163,41,0)));
+	background-image: -webkit-linear-gradient(top, rgb(240,60,0), rgb(163,41,0));
+	background-image: -moz-linear-gradient(top, rgb(240,60,0), rgb(163,41,0));
+	background-image: -o-linear-gradient(top, rgb(240,60,0), rgb(163,41,0));
+	background-image: -ms-linear-gradient(top, rgb(240,60,0), rgb(163,41,0));
+	background-image: linear-gradient(to bottom, rgb(240,60,0), rgb(163,41,0));
 }
