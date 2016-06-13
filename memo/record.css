@@ -5,7 +5,10 @@ html, body, h1, div, form, input, header, section, nav, ul{
 body{
 	background-color: #eee;
 }
-
+section.list ul div{
+	display: inline-block;
+	color: white;
+}
 h1{
 	font:italic bold 2em arial;
 	color: white;
@@ -27,7 +30,7 @@ ul{
 	text-align: center;
 	padding: 6px;
 }
-ul li{
+nav ul li{
 	list-style: none;
 	display: inline-block;
 	border-radius: 1.2em;

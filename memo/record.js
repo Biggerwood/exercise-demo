@@ -105,10 +105,10 @@ var openDB = function(){
                 setVersionRequest.onsuccess = function(e){
                     var objectStore = db.createObjectStore('task', {keyPath: 'id'});
                     objectStore.createIndex('desc', 'descUpper', {unique:false});
-                    loadSet(); //??
+                    loadTask(); //??
                 }
             }else{
-                loadSet();//??
+                loadTask();//??
             }
         }
         if(upgradeNeeded){
@@ -127,7 +127,7 @@ var openDB = function(){
     }
 }
     
-openDB();
+
 
 //判断是显示空列表还是添加任务
 var getEmptyList = function(query, taskList){
@@ -135,30 +135,35 @@ var getEmptyList = function(query, taskList){
     if(query.length > 0){
         emptyList.innerHTML = '<div class="emptyTitle">No tasks match your query:'+ query+'</div>';
     }else{
-        emptyList.innerHTML = '<div class="emptyTitle">No tasks to display.<a href = "#add">Add one</a></div>';
+        emptyList.innerHTML = '<div class="emptyTitle">No tasks to display.<a href = "#add">Add one?</a></div>';
     }
     taskList.appendChild(emptyList);
 }
 //插入任务
 var insertTask = function(e){
+    e.preventDefault();
+    event.returnValue = false;
     var desc = $('#desc')[0].value,
         dueDate = $('#date')[0].value;
+
     if(desc.length>0 && dueDate.length>0){
         var taskObject = {
             id: new Date().getTime(),
             desc: desc,
-            descUpper: dueDate,
+            descUpper: desc.toUpperCase(),
+            due: dueDate,
             complete: false
         }
         if(indexedDB){
             var tx = db.transaction(['task'], 'readwrite'),
                 objectStore = tx.objectStore('task'),
                 request = objectStore.add(taskObject);
-                tx.oncomplete = updateView;
+                
+            tx.oncomplete = updateView;
         }else if(webSQLSupport){
             db.transaction(function(tx){
                 var sql = 'INSERT INTO task(desc, due, complete)' + 'VALUES(?, ?, ?)',
-                    args = [taskObject.desc, Task.due, task.complete];
+                    args = [taskObject.desc, taskObject.due, taskObject.complete];
                 tx.executeSql(sql, args, updateView);
             });
         }
@@ -169,7 +174,7 @@ var insertTask = function(e){
 
 //搜索数据库，显示搜索到的任务项，q是可选参数，不同处理
 var loadTask = function(q){
-    var taskList = $('taskList'),
+    var taskList = $('#task_list')[0],
         query = q || '';
 
     taskList.innerHTML = '';
@@ -179,9 +184,10 @@ var loadTask = function(q){
             cursor,
             i = 0;
         if(query.length > 0){
+            console.log(query);
             var index = objectStore.index('desc'),
                 upper = query.toUpperCase(),
-                keyRange = IDBKeyRange.bound(upper, upper+'Q');
+                keyRange = IDBKeyRange.bound(upper, upper+'z');
             cursor = index.openCursor(keyRange);
         }else{
             cursor = objectStore.openCursor();
@@ -192,7 +198,7 @@ var loadTask = function(q){
             if(result == null) return;
             i++;
             showTask(result.value, taskList);
-            result['continue'];
+            result['continue']();
         }
         tx.oncomplete = function(e){
             if(i == 0){
@@ -227,6 +233,7 @@ var loadTask = function(q){
 }
 
 var searchTask = function(e){
+    e.preventDefault();
     var query = $('#search')[0].value;
     if(query.length > 0){
         loadTask(query);
@@ -245,12 +252,14 @@ var updateView = function(){
 
 
 var showTask = function(taskObject, taskList){
+
     var newTask = document.createElement('li'),
         checked = (taskObject.complete == 1)? 'checked = "checked"': '';
 
-    newTask.innerHTML = '<div class="complete"><input type="checkbox" name="complete" id="chk_"'+taskObject.id+'/></div>' + 
-    '<div class="delete"><a href="#" id="del_"'+taskObject.id+'>Delete</a></div>' + 
-    '<div class="title">'+taskObject.desc+'</div>'
+
+    newTask.innerHTML = '<div class="complete"><input type="checkbox" name="complete" id="chk_'+taskObject.id+'"/></div>' + 
+    '<div class="delete"><a href="#" id="del_'+taskObject.id+'">Delete</a></div>' + 
+    '<div class="title">'+taskObject.desc+'</div>'+
     '<div class="due">'+taskObject.due+'</div>';
     taskList.appendChild(newTask);
 
@@ -266,12 +275,13 @@ var showTask = function(taskObject, taskList){
     }
 
     var remove = function(e){
+        e.preventDefault();
         if(confirm('Deleting task. Are you sure?', 'Delete')) {
           deleteTask(taskObject.id); //删除task
         }
     }
-    $('chk_'+taskObject.id)[0].onchange = isMarkComplete;
-    $('del_'+taskObject.id)[0].onchange = remove;
+    $('#chk_'+taskObject.id)[0].onchange = isMarkComplete;
+    $('#del_'+taskObject.id)[0].onclick = remove;
 }
 
 //在数据库修改更新任务列表
@@ -294,8 +304,9 @@ var deleteTask = function(id){
     if(indexedDB){
         var tx = db.transaction(['task'], 'readwrite'),
             objectStore = tx.objectStore('task'),
-            request = objectStore.delete(id);
-            request.oncomplete = loadTask; //alert
+            request = objectStore['delete'](id);
+
+        tx.oncomplete = loadTask; //alert
     }else if(webSQLSupport){
        db.transaction(function(tx){
             var sql = 'Delete FROM　task WHERE id=?',
@@ -318,13 +329,16 @@ var delDatabase = function(){
 }
 
 addHandler(window, "load", function(){
+    openDB();
     loadSet();
     var oSave = $('#save')[0],
         oReset = $('#reset')[0],
-        oAdd = $('form')[1],
+        oAdd = $('#add')[0],
         oSearch = $('#search')[0];
+        oSearchForm = $('#search_form')[0];
     addHandler(window, "hashchange", jump);
     addHandler(oSave, 'click', saveSet);    
     addHandler(oReset, 'click', clrSet); 
-    addHandler(oAdd, 'click', insertTask);   
+    addHandler(oAdd, 'click', insertTask); 
+    addHandler(oSearchForm,'submit', searchTask);  
 });

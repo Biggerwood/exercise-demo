@@ -20,8 +20,8 @@
 			</nav>
 		</header>
 		<section name="list" class="list">
-			<form>
-				<input type="search" id="search"  placeholder="Search tasks..."/>
+			<form id ="search_form">
+				<input type="search" id="search" placeholder="Search tasks..."/>
 			</form>
 			<ul id="task_list"></ul>
 		</section>
@@ -30,8 +30,8 @@
 				<label for="desc">Task Description</label>
 				<textarea id="desc"></textarea>
 				<label for="date">Due Date</label>
-				<input id="date" type="date"/>
-				<input type="submit" value="Add Task">
+				<input id="date" type="date" name="date" />
+				<input id='add' type="submit" value="Add Task">
 			</form>
 		</section>
 		<section name="set" class="set">
