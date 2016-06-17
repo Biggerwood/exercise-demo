@@ -1,0 +1,53 @@
+body,div,img{
+	margin: 0;
+	padding: 0;
+}
+div.scollCont,div.scoll{
+	overflow: hidden;
+    font-size: 0;
+	width: 590px;
+	height: 420px;
+}
+
+div.scoll div{
+	position: relative;
+	display: inline;
+}
+.btnLeft{
+	background: url(img/b2.png);
+	position: relative;
+	top: -220px;
+	left: 35px;
+	width: 45px;
+	height: 45px;
+	cursor: pointer;
+}
+.btnRight{
+	background: url(img/b1.png);
+	position: relative;
+	top: -265px;
+	left: 505px;
+	width: 45px;
+	height: 45px;
+	cursor: pointer;
+}
+.pages{
+	position: relative;
+	top: -140px;
+}
+.pages div{
+	display: inline-block;
+	margin: 10px;
+	height: 10px;
+	width: 10px;
+	background: #fff;
+	border: 1px solid #333;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.pages div:hover{
+	background: #555;
+}
+.pages div.focus{
+	background: #748AE2;
+}
